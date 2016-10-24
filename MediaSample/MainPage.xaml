@@ -1,0 +1,90 @@
+﻿<Page
+    x:Class="MediaSample.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MediaSample"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:services="using:MediaSample.Services"
+    xmlns:converters="using:MediaSample.Converters"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:PosterConverter x:Key="PosterConverter" />
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <Image Source="{x:Bind SelectedPoster.ImageSource, Mode=OneWay}"
+               x:Name="BackgroundImage"
+               Stretch="UniformToFill"
+               SizeChanged="BackgroundImage_OnSizeChanged" />
+
+        <Rectangle Fill="White"
+                   Opacity="0.5"
+                   Stretch="Fill" />
+
+        <Grid x:Name="ContentContainer"
+              Padding="24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <ListView ItemsSource="{x:Bind Posters, Mode=OneWay}"
+                      Width="200"
+                      x:Name="PostersList"
+                      SelectedItem="{x:Bind SelectedPoster, Mode=TwoWay, Converter={StaticResource PosterConverter}}">
+                <ItemsControl.ItemContainerTransitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition IsStaggeringEnabled="True"/>
+                    </TransitionCollection>
+                </ItemsControl.ItemContainerTransitions>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="services:Poster">
+                        <Image Source="{x:Bind ImageSource}"
+                               x:Name="ContentImage"
+                               Width="150"
+                               Margin="12"
+                               Stretch="UniformToFill" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+            <Grid Grid.Column="1"
+                  Visibility="{x:Bind ShowDetailsPane, Mode=OneWay}"
+                  Margin="12,0">
+                <Grid.ChildrenTransitions>
+                    <TransitionCollection>
+                        <ContentThemeTransition/>
+                    </TransitionCollection>
+                </Grid.ChildrenTransitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                               x:Name="Title"
+                               Text="{x:Bind SelectedPoster.Title, Mode=OneWay}"
+                               Margin="12,0" />
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}"
+                               x:Name="Description"
+                               TextWrapping="WrapWholeWords"
+                               Margin="12"
+                               Text="{x:Bind SelectedPoster.Description, Mode=OneWay}" />
+                    <Button x:Name="OpenDetailButton"
+                            Margin="12"
+                            Click="{x:Bind OpenDetail}">
+                        Open Detail
+                    </Button>
+                </StackPanel>
+                <Image Source="{x:Bind SelectedPoster.ImageSource, Mode=OneWay}"
+                       Grid.Column="1"
+                       x:Name="HeroImage"
+                       Margin="12, 0" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
