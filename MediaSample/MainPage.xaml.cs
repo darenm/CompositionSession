@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Shapes;
 using MediaSample.Annotations;
 using MediaSample.Services;
 using Microsoft.Graphics.Canvas.Effects;
@@ -59,20 +60,37 @@ namespace MediaSample
                     return;
                 }
                 _selectedPoster = value;
-                ShowDetailsPane = _selectedPoster != null;
                 OnPropertyChanged();
+
+                InitializeDropShadow(ShadowHost);
             }
         }
 
-        public bool ShowDetailsPane
+        private void InitializeDropShadow(UIElement shadowHost)
         {
-            get { return _showDetailsPane; }
-            set
-            {
-                _showDetailsPane = value;
-                OnPropertyChanged();
-            }
+            Visual hostVisual = ElementCompositionPreview.GetElementVisual(shadowHost);
+            Compositor compositor = hostVisual.Compositor;
+
+            // Create a drop shadow
+            var dropShadow = compositor.CreateDropShadow();
+            dropShadow.Color = Color.FromArgb(255, 75, 75, 80);
+            dropShadow.BlurRadius = 15.0f;
+            dropShadow.Offset = new Vector3(2.5f, 2.5f, 0.0f);
+
+            // Create a Visual to hold the shadow
+            var shadowVisual = compositor.CreateSpriteVisual();
+            shadowVisual.Shadow = dropShadow;
+
+            // Add the shadow as a child of the host in the visual tree
+            ElementCompositionPreview.SetElementChildVisual(shadowHost, shadowVisual);
+
+            // Make sure size of shadow host and shadow visual always stay in sync
+            var bindSizeAnimation = compositor.CreateExpressionAnimation("hostVisual.Size");
+            bindSizeAnimation.SetReferenceParameter("hostVisual", hostVisual);
+
+            shadowVisual.StartAnimation("Size", bindSizeAnimation);
         }
+
 
         #region INotifyPropertyChanged Members
 
@@ -104,13 +122,14 @@ namespace MediaSample
                 PostersList.SelectedIndex = 0;
                 PostersList.Focus(FocusState.Programmatic);
             }
-
-            var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackHeroImage");
-            if (animation != null)
+            else
             {
-                animation.TryStart(HeroImage);
+                var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackHeroImage");
+                if (animation != null)
+                {
+                    animation.TryStart(HeroImage);
+                }
             }
-
         }
 
         public void OpenDetail()
@@ -173,5 +192,9 @@ namespace MediaSample
 
         #endregion
 
+        private void HeroImage_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ShadowHost.Width = e.NewSize.Width;
+        }
     }
 }

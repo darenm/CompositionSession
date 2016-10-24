@@ -53,13 +53,7 @@
             </ListView>
 
             <Grid Grid.Column="1"
-                  Visibility="{x:Bind ShowDetailsPane, Mode=OneWay}"
                   Margin="12,0">
-                <Grid.ChildrenTransitions>
-                    <TransitionCollection>
-                        <ContentThemeTransition/>
-                    </TransitionCollection>
-                </Grid.ChildrenTransitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
@@ -80,9 +74,13 @@
                         Open Detail
                     </Button>
                 </StackPanel>
+                <Canvas Grid.Column="1"
+                        x:Name="ShadowHost"/>
                 <Image Source="{x:Bind SelectedPoster.ImageSource, Mode=OneWay}"
                        Grid.Column="1"
                        x:Name="HeroImage"
+                       Stretch="UniformToFill"
+                       SizeChanged="HeroImage_OnSizeChanged"
                        Margin="12, 0" />
             </Grid>
         </Grid>
