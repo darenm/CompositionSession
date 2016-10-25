@@ -18,8 +18,7 @@
         <!-- #DEMO1# Background -->
         <!--<Image Source="{x:Bind SelectedPoster.ImageSource, Mode=OneWay}"
                x:Name="BackgroundImage"
-               Stretch="UniformToFill"
-               SizeChanged="BackgroundImage_OnSizeChanged" />
+               Stretch="UniformToFill" />
 
         <Rectangle Fill="White"
                    Opacity="0.5"

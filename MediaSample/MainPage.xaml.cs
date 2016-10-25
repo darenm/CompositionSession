@@ -41,6 +41,7 @@ namespace MediaSample
             #region #DEMO2# Blur Background
 
             // As we are using a BackDrop brush we can set this up once
+            //BackgroundImage.SizeChanged += BackgroundImage_OnSizeChanged;
             //BlurBackground();
 
             #endregion

@@ -29,6 +29,7 @@ namespace MediaSample
 
             #region #DEMO2# Blur Background
 
+            //BackgroundImage.SizeChanged += BackgroundImage_OnSizeChanged;
             //BlurBackground();
 
             #endregion
