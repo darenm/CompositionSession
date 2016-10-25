@@ -39,11 +39,12 @@
 
     </Grid>
     <Page.BottomAppBar>
-        <CommandBar IsOpen="True">
+        <CommandBar IsOpen="True"
+                    IsSticky="True">
             <AppBarButton Icon="Add"
                           Label="Storyboard"
                           Click="{x:Bind AddStoryboard}"/>
-            <AppBarButton Icon="Add"
+            <AppBarButton Icon="Refresh"
                           Label="Composition"
                           Click="{x:Bind AddComposition}"/>
         </CommandBar>
