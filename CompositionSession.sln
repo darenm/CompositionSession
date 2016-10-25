@@ -15,6 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "003", "003", "{FF03DBD7-87F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaSample", "MediaSample-Complete\MediaSample.csproj", "{DF14134A-3C23-4862-91F3-3794C6DE7567}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F1DA83CA-B502-4A06-987E-09BCCBE4CEC9}"
+	ProjectSection(SolutionItems) = preProject
+		Demo.txt = Demo.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM

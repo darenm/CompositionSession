@@ -38,17 +38,18 @@ namespace MediaSample
             // The compositor is essential for using the Composition engine
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
-            #region Blur Background
+            #region #DEMO2# Blur Background
 
             // As we are using a BackDrop brush we can set this up once
-            BlurBackground();
+            //BlurBackground();
 
             #endregion
 
-            #region DropShadow
+            #region #DEMO3# DropShadow
 
             // As we adapt to the size of the selected image, we can do this once
-            InitializeDropShadow(ShadowHost);
+            //HeroImage.SizeChanged += HeroImage_OnSizeChanged;
+            //InitializeDropShadow(ShadowHost);
 
             #endregion
         }
@@ -84,7 +85,9 @@ namespace MediaSample
                 }
                 _selectedPoster = value;
                 OnPropertyChanged();
-                FadeInDetails();
+                #region #DEMO3#
+                //FadeInDetails();
+                #endregion
             }
         }
 
@@ -105,14 +108,14 @@ namespace MediaSample
             ShadowHost.Visibility = Visibility.Collapsed;
             if (e.NavigationMode == NavigationMode.Back)
             {
-                #region Back Connected Animation
+                #region #DEMO6# Back Connected Animation
 
-                var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackHeroImage");
-                if (animation != null)
-                {
-                    animation.Completed += (sender, args) => { ShadowHost.Visibility = Visibility.Visible; };
-                    animation.TryStart(HeroImage);
-                }
+                //var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackHeroImage");
+                //if (animation != null)
+                //{
+                //    animation.Completed += (sender, args) => { ShadowHost.Visibility = Visibility.Visible; };
+                //    animation.TryStart(HeroImage);
+                //}
 
                 #endregion
             }
@@ -124,135 +127,139 @@ namespace MediaSample
                     Posters.Add(poster);
                 PostersList.SelectedIndex = 0;
                 PostersList.Focus(FocusState.Programmatic);
-                HeroImage.ImageOpened += HeroImage_ImageOpened;
+                #region #DEMO3
+                //HeroImage.ImageOpened += HeroImage_ImageOpened;
+                #endregion
             }
         }
 
         public void OpenDetail()
         {
-            #region Forward Connected Animation
+            #region #DEMO5# Forward Connected Animation
 
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("HeroImage", HeroImage);
+            //ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("HeroImage", HeroImage);
 
             #endregion
 
             Frame.Navigate(typeof(DetailsPage), SelectedPoster);
         }
 
-        #region FadeInDetails
 
-        private void FadeInDetails()
-        {
-            var detailsVisual = ElementCompositionPreview.GetElementVisual(DetailGrid);
-            var opacityAnimation = _compositor.CreateScalarKeyFrameAnimation();
+        #region #DEMO2# BlurBackground
 
-            var easing = _compositor.CreateLinearEasingFunction();
-            opacityAnimation.InsertKeyFrame(0.0f, 0f);
-            opacityAnimation.InsertKeyFrame(1.0f, 1.0f, easing);
+        //private void BlurBackground()
+        //{
+        //    var blendmode = BlendEffectMode.SoftLight;
 
-            opacityAnimation.Duration = TimeSpan.FromMilliseconds(500);
-            opacityAnimation.IterationBehavior = AnimationIterationBehavior.Count;
-            opacityAnimation.IterationCount = 1;
+        //    // Create a chained effect graph using a BlendEffect, blending color and blur
+        //    var graphicsEffect = new BlendEffect
+        //    {
+        //        Mode = blendmode,
+        //        Background = new ColorSourceEffect
+        //        {
+        //            Name = "Tint",
+        //            Color = Colors.White
+        //        },
+        //        Foreground = new GaussianBlurEffect
+        //        {
+        //            Name = "Blur",
+        //            Source = new CompositionEffectSourceParameter("Backdrop"), // Source will be input
+        //            BlurAmount = 35.0f,
+        //            BorderMode = EffectBorderMode.Hard // prevents blur exceeding input bounds
+        //        }
+        //    };
 
-            detailsVisual.StartAnimation(nameof(detailsVisual.Opacity), opacityAnimation);
-        }
+        //    var blurEffectFactory = _compositor.CreateEffectFactory(graphicsEffect);
 
-        #endregion
+        //    // Create EffectBrush, BackdropBrush and SpriteVisual
+        //    _brush = blurEffectFactory.CreateBrush();
 
-        #region DropShadow
+        //    var destinationBrush = _compositor.CreateBackdropBrush();
 
-        private void InitializeDropShadow(UIElement shadowHost)
-        {
-            // This gets the actual visual for the shadowHost
-            var hostVisual = ElementCompositionPreview.GetElementVisual(shadowHost);
+        //    // sets the Source input of GuassianBlur
+        //    _brush.SetSourceParameter("Backdrop", destinationBrush);
 
-            // Create a drop shadow
-            var dropShadow = _compositor.CreateDropShadow();
-            dropShadow.Color = Color.FromArgb(255, 75, 75, 80);
-            dropShadow.BlurRadius = 15.0f;
-            dropShadow.Offset = new Vector3(2.5f, 2.5f, 0.0f);
+        //    var blurSprite = _compositor.CreateSpriteVisual();
+        //    blurSprite.Size = new Vector2(
+        //        (float) BackgroundImage.ActualWidth,
+        //        (float) BackgroundImage.ActualHeight);
+        //    blurSprite.Brush = _brush;
 
-            // Create a Visual to hold the shadow
-            var shadowVisual = _compositor.CreateSpriteVisual();
-            shadowVisual.Shadow = dropShadow;
+        //    ElementCompositionPreview.SetElementChildVisual(BackgroundImage, blurSprite);
+        //}
 
-            // Add the shadow as a child of the host in the visual tree
-            ElementCompositionPreview.SetElementChildVisual(shadowHost, shadowVisual);
+        //private void BackgroundImage_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        //{
+        //    var blurVisual = (SpriteVisual) ElementCompositionPreview.GetElementChildVisual(BackgroundImage);
 
-            // Make sure size of shadow host and shadow visual always stay in sync
-            var bindSizeAnimation = _compositor.CreateExpressionAnimation("hostVisual.Size");
-            bindSizeAnimation.SetReferenceParameter("hostVisual", hostVisual);
-
-            shadowVisual.StartAnimation("Size", bindSizeAnimation);
-        }
-
-        private void HeroImage_OnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            ShadowHost.Width = e.NewSize.Width;
-        }
-
-        // Called once on initial load
-        private void HeroImage_ImageOpened(object sender, RoutedEventArgs e)
-        {
-            ShadowHost.Visibility = Visibility.Visible;
-            HeroImage.ImageOpened -= HeroImage_ImageOpened;
-        }
+        //    if (blurVisual != null)
+        //    {
+        //        blurVisual.Size = e.NewSize.ToVector2();
+        //    }
+        //}
 
         #endregion
 
-        #region BlurBackground
+        #region #DEMO3# DropShadow
 
-        private void BlurBackground()
-        {
-            var blendmode = BlendEffectMode.SoftLight;
+        //private void InitializeDropShadow(UIElement shadowHost)
+        //{
+        //    // This gets the actual visual for the shadowHost
+        //    var hostVisual = ElementCompositionPreview.GetElementVisual(shadowHost);
 
-            // Create a chained effect graph using a BlendEffect, blending color and blur
-            var graphicsEffect = new BlendEffect
-            {
-                Mode = blendmode,
-                Background = new ColorSourceEffect
-                {
-                    Name = "Tint",
-                    Color = Colors.White
-                },
-                Foreground = new GaussianBlurEffect
-                {
-                    Name = "Blur",
-                    Source = new CompositionEffectSourceParameter("Backdrop"), // Source will be input
-                    BlurAmount = 35.0f,
-                    BorderMode = EffectBorderMode.Hard // prevents blur exceeding input bounds
-                }
-            };
+        //    // Create a drop shadow
+        //    var dropShadow = _compositor.CreateDropShadow();
+        //    dropShadow.Color = Color.FromArgb(255, 75, 75, 80);
+        //    dropShadow.BlurRadius = 15.0f;
+        //    dropShadow.Offset = new Vector3(2.5f, 2.5f, 0.0f);
 
-            var blurEffectFactory = _compositor.CreateEffectFactory(graphicsEffect);
+        //    // Create a Visual to hold the shadow
+        //    var shadowVisual = _compositor.CreateSpriteVisual();
+        //    shadowVisual.Shadow = dropShadow;
 
-            // Create EffectBrush, BackdropBrush and SpriteVisual
-            _brush = blurEffectFactory.CreateBrush();
+        //    // Add the shadow as a child of the host in the visual tree
+        //    ElementCompositionPreview.SetElementChildVisual(shadowHost, shadowVisual);
 
-            var destinationBrush = _compositor.CreateBackdropBrush();
+        //    // Make sure size of shadow host and shadow visual always stay in sync
+        //    var bindSizeAnimation = _compositor.CreateExpressionAnimation("hostVisual.Size");
+        //    bindSizeAnimation.SetReferenceParameter("hostVisual", hostVisual);
 
-            // sets the Source input of GuassianBlur
-            _brush.SetSourceParameter("Backdrop", destinationBrush);
+        //    shadowVisual.StartAnimation("Size", bindSizeAnimation);
+        //}
 
-            var blurSprite = _compositor.CreateSpriteVisual();
-            blurSprite.Size = new Vector2(
-                (float) BackgroundImage.ActualWidth,
-                (float) BackgroundImage.ActualHeight);
-            blurSprite.Brush = _brush;
+        //private void HeroImage_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        //{
+        //    ShadowHost.Width = e.NewSize.Width;
+        //}
 
-            ElementCompositionPreview.SetElementChildVisual(BackgroundImage, blurSprite);
-        }
-
-        private void BackgroundImage_OnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var blurVisual = (SpriteVisual) ElementCompositionPreview.GetElementChildVisual(BackgroundImage);
-
-            if (blurVisual != null)
-            {
-                blurVisual.Size = e.NewSize.ToVector2();
-            }
-        }
+        //// Called once on initial load
+        //private void HeroImage_ImageOpened(object sender, RoutedEventArgs e)
+        //{
+        //    ShadowHost.Visibility = Visibility.Visible;
+        //    HeroImage.ImageOpened -= HeroImage_ImageOpened;
+        //}
 
         #endregion
+
+        #region #DEMO4# FadeInDetails
+
+        //private void FadeInDetails()
+        //{
+        //    var detailsVisual = ElementCompositionPreview.GetElementVisual(DetailGrid);
+        //    var opacityAnimation = _compositor.CreateScalarKeyFrameAnimation();
+
+        //    var easing = _compositor.CreateLinearEasingFunction();
+        //    opacityAnimation.InsertKeyFrame(0.0f, 0f);
+        //    opacityAnimation.InsertKeyFrame(1.0f, 1.0f, easing);
+
+        //    opacityAnimation.Duration = TimeSpan.FromMilliseconds(500);
+        //    opacityAnimation.IterationBehavior = AnimationIterationBehavior.Count;
+        //    opacityAnimation.IterationCount = 1;
+
+        //    detailsVisual.StartAnimation(nameof(detailsVisual.Opacity), opacityAnimation);
+        //}
+
+        #endregion
+
     }
 }

@@ -1,0 +1,13 @@
+Demo Outline
+
+Simple Composition Sample
+	Compare Storyboard vs. Compostion
+
+Media Sample
+
+	#DEMO1# Background
+	#DEMO2# Blur Background
+	#DEMO3# Drop Shadows
+	#DEMO4# Fade in Details
+	#DEMO5# Forward Animation
+	#DEMO6# Back Animation

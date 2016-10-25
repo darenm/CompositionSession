@@ -9,14 +9,18 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <Image Source="{x:Bind SelectedPoster.ImageSource, Mode=OneWay}"
+        <!-- #DEMO1# Background -->
+        <!--<Image Source="{x:Bind SelectedPoster.ImageSource, Mode=OneWay}"
                x:Name="BackgroundImage"
                Stretch="UniformToFill"
                SizeChanged="BackgroundImage_OnSizeChanged" />
 
         <Rectangle Fill="White"
                    Opacity="0.5"
-                   Stretch="Fill" />
+                   Stretch="Fill" />-->
+
+        <!-- End Background -->
+
 
         <RelativePanel MaxWidth="800"
                        Margin="12,0"
