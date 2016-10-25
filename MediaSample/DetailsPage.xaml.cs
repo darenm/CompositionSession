@@ -34,8 +34,8 @@ namespace MediaSample
 
             #region #DEMO2# Blur Background
 
-            BackgroundImage.SizeChanged += BackgroundImage_OnSizeChanged;
-            BlurBackground();
+            //BackgroundImage.SizeChanged += BackgroundImage_OnSizeChanged;
+            //BlurBackground();
 
             #endregion
         }
@@ -72,16 +72,16 @@ namespace MediaSample
 
             #region #DEMO5# forward animation
 
-            var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("HeroImage");
-            if (animation != null)
-            {
-                HeroImage.Opacity = 0;
-                HeroImage.ImageOpened += (sender, args) =>
-                {
-                    animation.TryStart(HeroImage);
-                    HeroImage.Opacity = 1;
-                };
-            }
+            //var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("HeroImage");
+            //if (animation != null)
+            //{
+            //    HeroImage.Opacity = 0;
+            //    HeroImage.ImageOpened += (sender, args) =>
+            //    {
+            //        animation.TryStart(HeroImage);
+            //        HeroImage.Opacity = 1;
+            //    };
+            //}
 
             #endregion
 
@@ -92,7 +92,7 @@ namespace MediaSample
         {
             #region #DEMO6# back navigation
 
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackHeroImage", HeroImage);
+            //ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackHeroImage", HeroImage);
 
             #endregion
 
@@ -105,55 +105,55 @@ namespace MediaSample
 
         #region #DEMO2# BlurBackground
 
-        private void BlurBackground()
-        {
-            var blendmode = BlendEffectMode.SoftLight;
+        //private void BlurBackground()
+        //{
+        //    var blendmode = BlendEffectMode.SoftLight;
 
-            // Create a chained effect graph using a BlendEffect, blending color and blur
-            var graphicsEffect = new BlendEffect
-            {
-                Mode = blendmode,
-                Background = new ColorSourceEffect
-                {
-                    Name = "Tint",
-                    Color = Colors.White
-                },
-                Foreground = new GaussianBlurEffect
-                {
-                    Name = "Blur",
-                    Source = new CompositionEffectSourceParameter("Backdrop"),
-                    BlurAmount = 35.0f,
-                    BorderMode = EffectBorderMode.Hard
-                }
-            };
+        //    // Create a chained effect graph using a BlendEffect, blending color and blur
+        //    var graphicsEffect = new BlendEffect
+        //    {
+        //        Mode = blendmode,
+        //        Background = new ColorSourceEffect
+        //        {
+        //            Name = "Tint",
+        //            Color = Colors.White
+        //        },
+        //        Foreground = new GaussianBlurEffect
+        //        {
+        //            Name = "Blur",
+        //            Source = new CompositionEffectSourceParameter("Backdrop"),
+        //            BlurAmount = 35.0f,
+        //            BorderMode = EffectBorderMode.Hard
+        //        }
+        //    };
 
-            var blurEffectFactory = _compositor.CreateEffectFactory(graphicsEffect,
-                new[] { "Blur.BlurAmount", "Tint.Color" });
+        //    var blurEffectFactory = _compositor.CreateEffectFactory(graphicsEffect,
+        //        new[] { "Blur.BlurAmount", "Tint.Color" });
 
-            // Create EffectBrush, BackdropBrush and SpriteVisual
-            _brush = blurEffectFactory.CreateBrush();
+        //    // Create EffectBrush, BackdropBrush and SpriteVisual
+        //    _brush = blurEffectFactory.CreateBrush();
 
-            var destinationBrush = _compositor.CreateBackdropBrush();
-            _brush.SetSourceParameter("Backdrop", destinationBrush);
+        //    var destinationBrush = _compositor.CreateBackdropBrush();
+        //    _brush.SetSourceParameter("Backdrop", destinationBrush);
 
-            var blurSprite = _compositor.CreateSpriteVisual();
-            blurSprite.Size = new Vector2(
-                (float)BackgroundImage.ActualWidth,
-                (float)BackgroundImage.ActualHeight);
-            blurSprite.Brush = _brush;
+        //    var blurSprite = _compositor.CreateSpriteVisual();
+        //    blurSprite.Size = new Vector2(
+        //        (float)BackgroundImage.ActualWidth,
+        //        (float)BackgroundImage.ActualHeight);
+        //    blurSprite.Brush = _brush;
 
-            ElementCompositionPreview.SetElementChildVisual(BackgroundImage, blurSprite);
-        }
+        //    ElementCompositionPreview.SetElementChildVisual(BackgroundImage, blurSprite);
+        //}
 
-        private void BackgroundImage_OnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var blurVisual = (SpriteVisual)ElementCompositionPreview.GetElementChildVisual(BackgroundImage);
+        //private void BackgroundImage_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        //{
+        //    var blurVisual = (SpriteVisual)ElementCompositionPreview.GetElementChildVisual(BackgroundImage);
 
-            if (blurVisual != null)
-            {
-                blurVisual.Size = e.NewSize.ToVector2();
-            }
-        }
+        //    if (blurVisual != null)
+        //    {
+        //        blurVisual.Size = e.NewSize.ToVector2();
+        //    }
+        //}
 
         #endregion
     }

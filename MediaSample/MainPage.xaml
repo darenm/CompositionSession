@@ -16,13 +16,13 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <!-- #DEMO1# Background -->
-        <Image Source="{x:Bind SelectedPoster.ImageSource, Mode=OneWay}"
+        <!--<Image Source="{x:Bind SelectedPoster.ImageSource, Mode=OneWay}"
                x:Name="BackgroundImage"
                Stretch="UniformToFill" />
 
         <Rectangle Fill="White"
                    Opacity="0.5"
-                   Stretch="Fill" />
+                   Stretch="Fill" />-->
         <!-- End Background -->
 
         <Grid Padding="24">
@@ -77,8 +77,8 @@
                 </StackPanel>
                 
                 <!-- #DEMO3 -->
-                <Canvas Grid.Column="1"
-                        x:Name="ShadowHost"/>
+                <!--<Canvas Grid.Column="1"
+                        x:Name="ShadowHost"/>-->
                 <Image Source="{x:Bind SelectedPoster.ImageSource, Mode=OneWay}"
                        Grid.Column="1"
                        x:Name="HeroImage"
