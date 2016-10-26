@@ -25,16 +25,16 @@ namespace Visuals
             var visual = ElementCompositionPreview.GetElementVisual(FancyPanel);
             var compositor = visual.Compositor;
 
-            var rotateAnimation = compositor.CreateVector3KeyFrameAnimation();
+            var translateAnimation = compositor.CreateVector3KeyFrameAnimation();
             var easing = compositor.CreateLinearEasingFunction();
-            rotateAnimation.InsertKeyFrame(0.0f, Vector3.Zero);
-            rotateAnimation.InsertKeyFrame(1.0f, new Vector3(600f, 400f, 0), easing);
+            translateAnimation.InsertKeyFrame(0.0f, Vector3.Zero);
+            translateAnimation.InsertKeyFrame(1.0f, new Vector3(600f, 400f, 0), easing);
 
-            rotateAnimation.Duration = TimeSpan.FromSeconds(2);
-            rotateAnimation.IterationBehavior = AnimationIterationBehavior.Count;
-            rotateAnimation.IterationCount = 1;
+            translateAnimation.Duration = TimeSpan.FromSeconds(2);
+            translateAnimation.IterationBehavior = AnimationIterationBehavior.Count;
+            translateAnimation.IterationCount = 1;
 
-            visual.StartAnimation(nameof(visual.Offset), rotateAnimation);
+            visual.StartAnimation(nameof(visual.Offset), translateAnimation);
 
         }
 
