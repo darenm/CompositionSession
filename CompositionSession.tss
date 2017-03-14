@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ArrayOfArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Daren\source\repos\CompositionSession\Demo.txt</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\users\daren\source\repos\compositionsession\mediasample\detailspage.xaml</string>
+      <string>c:\users\daren\source\repos\compositionsession\mediasample\detailspage.xaml.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\users\daren\source\repos\compositionsession\mediasample\mainpage.xaml</string>
+      <string>C:\Users\Daren\Source\Repos\CompositionSession\MediaSample\MainPage.xaml.cs</string>
+    </ArrayOfString>
+  </ArrayOfArrayOfString>
+</ArrayOfArrayOfArrayOfString>

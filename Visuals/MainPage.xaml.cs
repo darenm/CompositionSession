@@ -40,7 +40,7 @@ namespace Visuals
 
         private void AddVisual(object sender, RoutedEventArgs e)
         {
-            var compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            var compositor = Window.Current.Compositor;
             var visual = compositor.CreateSpriteVisual();
 
             visual.Size = new Vector2(150, 150);
@@ -52,7 +52,7 @@ namespace Visuals
 
         private void AddMany(object sender, RoutedEventArgs e)
         {
-            var compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            var compositor = Window.Current.Compositor;
             var container = compositor.CreateContainerVisual();
 
             var visual1 = compositor.CreateSpriteVisual();

@@ -36,7 +36,7 @@ namespace MediaSample
             NavigationCacheMode = NavigationCacheMode.Required;
 
             // The compositor is essential for using the Composition engine
-            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _compositor = Window.Current.Compositor;
 
             #region Blur Background
 
@@ -121,7 +121,10 @@ namespace MediaSample
                 Posters = new ObservableCollection<Poster>();
                 var posterService = new PosterService();
                 foreach (var poster in await posterService.GetPostersAsync())
+                {
                     Posters.Add(poster);
+                }
+
                 PostersList.SelectedIndex = 0;
                 PostersList.Focus(FocusState.Programmatic);
                 HeroImage.ImageOpened += HeroImage_ImageOpened;

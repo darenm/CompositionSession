@@ -30,7 +30,7 @@ namespace MediaSample
         {
             InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Enabled;
-            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _compositor = Window.Current.Compositor;
             BlurBackground();
         }
 
